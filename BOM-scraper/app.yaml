@@ -3,13 +3,12 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /.*
+- url: /bom
   script: main.app
+  login: admin
 
 #[START env]
 env_variables:
-  PUBSUB_TOPIC: bom_weather_data
-  # This token is used to verify that requests originate from your
-  # application. It can be any sufficiently random string.
-  PUBSUB_VERIFICATION_TOKEN: 9dbb622a-60f1-4c83-8fb8-cbea8cc6e643
+  PUBSUB_TOPIC: bom_weather_data_new
+  GCLOUD_PROJECT: focus-antler-254823
 #[END env]

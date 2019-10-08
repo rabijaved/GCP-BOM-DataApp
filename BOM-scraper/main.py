@@ -27,8 +27,8 @@ from googleapiclient.discovery import build
 app = Flask(__name__)
 
 # Configure the following environment variables via app.yaml
-# This is used in the push request handler to verify that the request came from
-# pubsub and originated from a trusted source.
+APP_PUBSUB_TOPIC = os.environ['PUBSUB_TOPIC']
+APP_GCLOUD_PROJECT = os.environ['GCLOUD_PROJECT']
 
 site= "http://www.bom.gov.au/vic/observations/vicall.shtml"
 hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
@@ -120,8 +120,11 @@ class MainPage(webapp2.RequestHandler):
     def publish(self, data_lines):
 
         service = build('pubsub', 'v1')
-        topic_path = 'projects/focus-antler-254823/topics/bom_weather_data_new'
 
+        topic_path = 'projects/{0}/topics/{1}'.format(
+            APP_GCLOUD_PROJECT,
+            APP_PUBSUB_TOPIC
+        )
         resp = service.projects().topics().publish(
             topic=topic_path, body={
             "messages": [{
@@ -134,5 +137,5 @@ class MainPage(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-    ('/', MainPage),
+    ('/bom', MainPage),
 ], debug=True)
