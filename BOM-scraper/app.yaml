@@ -1,0 +1,15 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /.*
+  script: main.app
+
+#[START env]
+env_variables:
+  PUBSUB_TOPIC: bom_weather_data
+  # This token is used to verify that requests originate from your
+  # application. It can be any sufficiently random string.
+  PUBSUB_VERIFICATION_TOKEN: 9dbb622a-60f1-4c83-8fb8-cbea8cc6e643
+#[END env]
