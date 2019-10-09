@@ -19,6 +19,7 @@ import base64
 import json
 import logging
 import os
+import random
 
 from flask import current_app, Flask, render_template, request
 from googleapiclient.discovery import build
@@ -80,30 +81,49 @@ class MainPage(webapp2.RequestHandler):
                     splitStr = finalOut.split(", ")
                         
                     if len(splitStr) == 19:
-                        tempx = { "Location":splitStr[0].replace("'",""), 
-                        "DateTime":splitStr[1].replace("'",""), 
-                        "Temp":splitStr[2].replace("'",""),
-                        "AppTemp":splitStr[3].replace("'",""),
-                        "DewPoint":splitStr[4].replace("'",""),
-                        "RelHum":splitStr[5].replace("'",""),
-                        "DeltaT":splitStr[6].replace("'",""),
-                        "WindDir":splitStr[7].replace("'",""),
-                        "WindSpeed":splitStr[8].replace("'",""),
-                        "WindGust":splitStr[9].replace("'",""),
-                        "WindSpeedKts":splitStr[10].replace("'",""),
-                        "WindGustKts":splitStr[11].replace("'",""),
-                        "PressHPA":splitStr[12].replace("'",""),
-                        "Rain":splitStr[13].replace("'",""),
-                        "LowTempTime":splitStr[14].replace("'",""),
-                        "HighTempTime":splitStr[15].replace("'",""),
-                        "HWGDir":splitStr[16].replace("'",""),
-                        "HWGTime":splitStr[17].replace("'",""),
-                        "KTSTime":splitStr[18].replace("'","")}
 
-                        app_json = json.dumps(tempx)
+                        #randomly change the schema of the JSON by removing some elements
+                        if random.random() > 0.70:
 
-                        self.publish(app_json)
-                        dataSet = dataSet + str(app_json)
+
+                            tempx = { "Location":splitStr[0].replace("'",""), 
+                            "DateTime":splitStr[1].replace("'",""), 
+                            "Temp":splitStr[2].replace("'",""),
+                            "AppTemp":splitStr[3].replace("'",""),
+                            "DewPoint":splitStr[4].replace("'",""),
+                            "RelHum":splitStr[5].replace("'","")}
+
+                            app_json = json.dumps(tempx)
+
+                            self.publish(app_json)
+                            dataSet = dataSet + str(app_json)+ "\n"
+
+                        else:
+
+                            tempx = { "Location":splitStr[0].replace("'",""), 
+                            "DateTime":splitStr[1].replace("'",""), 
+                            "Temp":splitStr[2].replace("'",""),
+                            "AppTemp":splitStr[3].replace("'",""),
+                            "DewPoint":splitStr[4].replace("'",""),
+                            "RelHum":splitStr[5].replace("'",""),
+                            "DeltaT":splitStr[6].replace("'",""),
+                            "WindDir":splitStr[7].replace("'",""),
+                            "WindSpeed":splitStr[8].replace("'",""),
+                            "WindGust":splitStr[9].replace("'",""),
+                            "WindSpeedKts":splitStr[10].replace("'",""),
+                            "WindGustKts":splitStr[11].replace("'",""),
+                            "PressHPA":splitStr[12].replace("'",""),
+                            "Rain":splitStr[13].replace("'",""),
+                            "LowTempTime":splitStr[14].replace("'",""),
+                            "HighTempTime":splitStr[15].replace("'",""),
+                            "HWGDir":splitStr[16].replace("'",""),
+                            "HWGTime":splitStr[17].replace("'",""),
+                            "KTSTime":splitStr[18].replace("'","")}
+
+                            app_json = json.dumps(tempx)
+
+                            self.publish(app_json)
+                            dataSet = dataSet + str(app_json) + "\n"
 
         return dataSet
             
