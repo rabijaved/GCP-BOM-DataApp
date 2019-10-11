@@ -9,6 +9,6 @@ handlers:
 
 #[START env]
 env_variables:
-  PUBSUB_TOPIC: bom_weather_data_new
-  GCLOUD_PROJECT: focus-antler-254823
+  PUBSUB_TOPIC: #topicname
+  GCLOUD_PROJECT: #projectname
 #[END env]
